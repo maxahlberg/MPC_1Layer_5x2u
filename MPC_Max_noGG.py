@@ -939,19 +939,20 @@ def main():
             #plt.savefig('/home/maxahlberg/Pictures/U_turn_fig' + str(ITERATION) +'.png')
 
 
-            plt.figure(4)
+            plt.figure(3)
+            plt.subplot(221)
             plt.plot(travel, lateral_acceleration, 'k')
             plt.title("Lateral acceleratiooon")
             plt.savefig('/home/maxahlberg/Pictures/lateral_acceleration.png')
 
-            plt.figure(5)
+            plt.subplot(222)
             plt.plot(travel, total_acceleration, 'b')
             plt.title("Total acceleratiooon")
             plt.savefig('/home/maxahlberg/Pictures/total_acceleration.png')
 
-            plt.figure(6)
-            plt.plot(travel[-3:-1], radie[-3:-1], 'g')
-            plt.title("Total radie")
+            plt.subplot(223)
+            plt.plot(travel, radie, 'g')
+            plt.title("Total Kurvatur")
 
 
             '''

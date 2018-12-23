@@ -230,8 +230,8 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
         s = mpc_est.s[0:(N)+1]
 
         #states
-        psi_bar = mpc_est.e_psi[0:(N)+1]
-        psi = mpc_est.e_psi[0]
+        psi_bar = mpc_est.psi[0:(N)+1]
+        psi = mpc_est.psi[0]
         d_bar = mpc_est.d[0:(N)+1]
         d = mpc_est.d[0]
         v_bar = mpc_est.v[0:(N)+1]
@@ -248,7 +248,6 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
         J = J_bar[0]
 
 
-        #HIT ÄR ALLT BRA!
 
     else:
         #track info
@@ -747,8 +746,8 @@ def main():
     # States
     mpc_s.d = [0.0]      # Deviation from centerline
     mpc_s.d += N * mpc_s.d  # Tot [0-N,N]
-    mpc_s.e_psi = [0.0]  # Yaw angle deviation of car compared to track
-    mpc_s.e_psi += N * mpc_s.e_psi  # Tot [0-N,N]
+    mpc_s.psi = [0.0]  # Yaw angle deviation of car compared to track
+    mpc_s.psi += N * mpc_s.psi  # Tot [0-N,N]
     mpc_s.v = []
     mpc_s.K = [0.0]   # Curvature of car car(global) (trajectory-curvature, estimated to go straight ahead)
     mpc_s.a = [10.0]  # Acceleration

@@ -230,10 +230,10 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
         s = mpc_est.s[0:(N)+1]
 
         #states
-        psi_bar = mpc_est.psi[0:(N)+1]
-        psi = mpc_est.psi[0]
         d_bar = mpc_est.d[0:(N)+1]
         d = mpc_est.d[0]
+        psi_bar = mpc_est.psi[0:(N)+1]
+        psi = mpc_est.psi[0]
         v_bar = mpc_est.v[0:(N)+1]
         v = mpc_est.v[0]
         K_bar = mpc_est.K[0:(N)+1]
@@ -258,8 +258,8 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
         #states only the actual state needed to predict future x and u's
         scar = mpc_est.scar
 
-        psi = mpc_est.psi[1]
         d = mpc_est.d[1]
+        psi = mpc_est.psi[1]
         v = mpc_est.v[1]
         K = mpc_est.K[1]
         a = mpc_est.a[1]
@@ -270,8 +270,8 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
         #The reference/privious prediction vectors
         s = mpc_est.s[0:(N)+1]
 
-        psi_bar = mpc_est.psi[1:(N)+1]
         d_bar = mpc_est.d[1:(N)+1]
+        psi_bar = mpc_est.psi[1:(N)+1]
         v_bar = mpc_est.v[1:(N)+1]
         K_bar = mpc_est.K[1:(N)+1]
         a_bar = mpc_est.a[1:(N)+1]
@@ -279,8 +279,8 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
         C_bar = mpc_est.C[1:(N-1)+1] #skall dessa framåt?
         J_bar = mpc_est.J[1:(N-1)+1]
 
-    print "REFERENS psi:", psi_bar
     print "REFERENS d:", d_bar
+    print "REFERENS psi:", psi_bar
     print "REFERENS v:", v_bar
     print "REFERENS K:", K_bar
     print "REFERENS a:", a_bar
@@ -335,14 +335,14 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
                        [((1-d_bar[t]*c_bar[-1])*J_bar[t])/(v_bar[t]*math.cos(psi_bar[t]))]])
 
         A = np.matrix([[-c_bar[-1]*math.tan(psi_bar[t]),
-                        ((1-d_bar[t]*c_bar[-1]))/(math.cos(psi_bar[t])**2),
+                        ((1-d_bar[t]*c_bar[-1]))*(math.cos(psi_bar[t])**2),
                         0,
                         0,
                         0],
                         [-(c_bar[-1]*K_bar[t])/(math.cos(psi_bar[t])),
                          (((1 - d_bar[t] * c_bar[-1]) * K_bar[t])*math.tan(psi_bar[t])) / (math.cos(psi_bar[t])),
                          0,
-                         (1-d_bar[t]*c_bar[-1])/math.cos(psi_bar[t]),
+                         (1-d_bar[t]*c_bar[-1]*K_bar[t])/math.cos(psi_bar[t]),
                          0],
                        [-(c_bar[-1]*a_bar[t])/(v_bar[t]*math.cos(psi_bar[t])),
                         ((1-d_bar[t]*c_bar[-1])*a_bar[t]*math.tan(psi_bar[t]))/(v_bar[t]*math.cos(psi_bar[t])),
@@ -386,8 +386,8 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
 
         #Pedro + Max cost function
         cost += -(c_bar[-1])/(v_bar[t])*x[0, t]
-        cost += (1 - d_bar[t]*c_bar[-1])/(v_bar[t])*x[1, t]**2 #Varför 2*v_bar -12december
-        cost += -((1-d_bar[t]*c_bar[-1]))/(v_bar[t]**2)*x[2, t]
+        cost += ((1 - d_bar[t]*c_bar[-1])/(v_bar[t]))*x[1, t]**2 #Varför 2*v_bar -12december
+        cost += -((1-d_bar[t]*c_bar[-1])/(v_bar[t]**2))*x[2, t]
         cost += sum_squares(Q_slack*slack[:,t])
         #cost += slackC**2 * Q_inputs #kommenterade - 12December
         #cost += slackJ**2 * Q_inputs #kommenterade - 12December
@@ -490,8 +490,8 @@ def MPC_calc(csp, mpc_est, ITERATION, track_info):
                 mpcp.s[i] = mpcp.s[i] - s_track[-1]
         mpcp.scar = mpcp.s[1]
         #Mycket verkar ok till hit!
-        print "mpc solution psi:", mpcp.psi
         print "mpc solution d:", mpcp.d
+        print "mpc solution psi:", mpcp.psi
         print "mpc solution v:", mpcp.v
         print "mpc solution K:", mpcp.K
         print "mpc solution a:", mpcp.a

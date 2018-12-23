@@ -713,11 +713,11 @@ def main():
 
     #wx = [-50, 0.0, 2.0, 5.0, 7.0, 10.0, 28.0,  35.0,  36.0, 42.0, 60.0, 70.0, 80.0, 90.0, 100.0, 250.0] #, 500.0, 800.0, 1000.0]
     #wy = [0.0, 0.0, 0.0, 0.0, 0.0,  0.0,  5.0,  30.0,  30.0,  5.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #, 0.0, 0.0, 0.0]
-    #90-turn
+    #90-turn 10m radie
     wx = [  20.0, 20.0, 20.0, 20.0, 20.0,   22, 27.5, 35, 38, 40, 45, 2000]
     wy = [-100.0,  -10,    0,   10,   15, 22.5,   28, 30, 30, 30, 30, 30]
 
-    #90 deg turn small radius
+    #90 deg turn small radius 5m radie
     #wx = [  20.0, 20.0, 20.0, 20.0, 20.0,   20.67, 22.5, 25, 28, 30, 35, 2000]
     #wy = [-100.0,  -10,    0,   15, 20.0,    22.5,24.33, 25, 25, 25, 25, 25]
 
@@ -952,7 +952,12 @@ def main():
 
             plt.subplot(223)
             plt.plot(travel, radie, 'g')
-            plt.title("Total Kurvatur")
+            plt.title("Total Curvature of the car")
+
+            plt.subplot(224)
+            plt.plot(ts, tc, 'g')
+            plt.xlim(0, 200)
+            plt.title("Total Curvature of the track")
 
 
             '''
